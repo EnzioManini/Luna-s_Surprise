@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles Généraux et Fond Romantique --- */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Georgia', serif;
+            overflow: hidden; 
+            background: url('https://images.unsplash.com/photo-1518199266791-5375a83164ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+            background-size: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255, 192, 203, 0.3);
+            z-index: 1;
+        }
+
+        /* --- Banderole de fin --- */
+        #banner {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            background-color: #d32f2f; 
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 2.5em;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            z-index: 30; 
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: transform 1s ease-out, opacity 1s ease-out;
+        }
+
+        /* --- Animation des fleurs qui tombent --- */
+        .flower {
+            position: absolute;
+            top: -10%;
+            z-index: 5;
+            user-select: none;
+            animation: fall linear forwards, sway ease-in-out infinite alternate;
+        }
+
+        .flower img {
+            width: 35px; height: 35px;
+        }
+
+        @keyframes fall {
+            to { top: 110%; }
+        }
+
+        @keyframes sway {
+            from { transform: translateX(-30px) rotate(0deg); }
+            to { transform: translateX(30px) rotate(360deg); }
+        }
+
+        /* --- Conteneur principal (Texte + Bouton) --- */
+        #main-container {
+            text-align: center;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: opacity 1s ease;
+            max-width: 80%;
+        }
+
+        h1 {
+            color: #d81b60;
+            margin-bottom: 20px;
+            font-size: 2.2em;
+            transition: opacity 0.5s ease; 
+        }
+
+        /* --- NOUVEAU : Animation Bouton Cœur Battant --- */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.1); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        button {
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(216, 27, 96, 0.4);
+            margin-top: 10px;
+            /* L'animation de battement tourne en boucle */
+            animation: heartbeat 1.5s infinite;
+        }
+
+        button:hover {
+            background-color: #c2185b;
+            /* On arrête le battement quand la souris est dessus */
+            animation: none; 
+            transform: scale(1.05);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        /* --- Section Photo (cachée au début) --- */
+        #photo-container {
+            display: none;
+            opacity: 0;
+            text-align: center;
+            z-index: 20;
+            transition: opacity 2s ease;
+            margin-top: 50px; 
+        }
+
+        /* --- NOUVEAU : Effet Polaroïd --- */
+        .polaroid {
+            background: white;
+            /* Plus de marge en bas pour écrire le texte */
+            padding: 15px 15px 50px 15px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+            /* Légèrement incliné pour faire naturel */
+            transform: rotate(-3deg); 
+            display: inline-block;
+        }
+
+        .polaroid img {
+            max-width: 80vw;
+            max-height: 60vh;
+            display: block;
+            border: 1px solid #ddd;
+        }
+
+        .polaroid-caption {
+            font-family: 'Caveat', cursive; /* Police manuscrite */
+            font-size: 2.5em;
+            color: #333;
+            margin-top: 15px;
+            text-align: center;
+            /* Pour que le texte compense l'inclinaison de la photo */
+            transform: rotate(2deg); 
+        }
+
+        /* --- NOUVEAU : Styles pour l'explosion de cœurs --- */
+        .explosion-heart {
+            position: absolute;
+            top: 50%; left: 50%;
+            z-index: 25;
+            pointer-events: none;
+            user-select: none;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1), opacity 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <div id="banner">Happy Valentine's Day My Love ! ❤️</div>
+
+    <div id="main-container">
+        <h1 id="message-text">I Have a Surprise For You...</h1>
+        <button id="reveal-btn">Click Here ❤️</button>
+    </div>
+
+    <div id="photo-container">
+        <div class="polaroid">
+            <img src="VOTRE_PHOTO_ICI.jpg" alt="Notre photo">
+            <div class="polaroid-caption">Our Love Together... ❤️</div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Gestion des clics et de la séquence de messages ---
+        const btn = document.getElementById('reveal-btn');
+        const mainContainer = document.getElementById('main-container');
+        const photoContainer = document.getElementById('photo-container');
+        const messageText = document.getElementById('message-text');
+        const banner = document.getElementById('banner'); 
+
+        const messages = [
+            "I created this website to show you how much...",
+            "I Love you",
+            "Combien...",
+            "Je t'aime",
+            "Wie Sehr...",
+            "Ich Liebe dich"
+        ];
+        
+        let clickCount = 0; 
+
+        btn.addEventListener('click', () => {
+            if (clickCount < messages.length) {
+                messageText.style.opacity = '0';
+                
+                setTimeout(() => {
+                    messageText.innerText = messages[clickCount];
+                    messageText.style.opacity = '1';
+                    clickCount++; 
+                }, 500);
+            } 
+            else {
+                mainContainer.style.opacity = '0'; 
+                
+                setTimeout(() => {
+                    mainContainer.style.display = 'none';
+                    photoContainer.style.display = 'block'; 
+                    
+                    setTimeout(() => {
+                        photoContainer.style.opacity = '1'; 
+                        banner.style.transform = 'translateY(0)';
+                        banner.style.opacity = '1';
+
+                        // NOUVEAU : On déclenche l'explosion au moment de l'affichage !
+                        explodeHearts();
+                    }, 50);
+                }, 1000);
+            }
+        });
+
+        // --- 2. Fonction pour l'Explosion de Cœurs 💥 ---
+        function explodeHearts() {
+            const heartEmojis = ['❤️', '💖', '💘', '💕', '🥰'];
+            const numberOfHearts = 40; // Nombre de coeurs projetés
+
+            for (let i = 0; i < numberOfHearts; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('explosion-heart');
+                heart.innerText = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                document.body.appendChild(heart);
+
+                // Calcul mathématique pour envoyer les cœurs dans toutes les directions (360 degrés)
+                const angle = Math.random() * Math.PI * 2;
+                // Distance d'éloignement par rapport au centre
+                const distance = Math.random() * (window.innerWidth / 2) + 50; 
+                
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const size = Math.random() * 2 + 1; // Taille aléatoire
+
+                // Petite astuce technique pour forcer l'animation CSS à se jouer
+                requestAnimationFrame(() => {
+                    heart.style.transform = `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${size})`;
+                    heart.style.opacity = '0'; // Ils s'effacent doucement en volant
+                });
+
+                // On nettoie le code en supprimant les cœurs invisibles après 1,5 seconde
+                setTimeout(() => {
+                    heart.remove();
+                }, 1500);
+            }
+        }
+
+        // --- 3. LIENS DES ANIMATIONS (Pluie de fleurs de fond) ---
+        const flowerLinks = [
+            'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f338.png', 
+            'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f339.png', 
+            'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f33a.png', 
+            'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f496.png'  
+        ];
+
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+            
+            const img = document.createElement('img');
+            img.src = flowerLinks[Math.floor(Math.random() * flowerLinks.length)];
+            flower.appendChild(img);
+            
+            flower.style.left = Math.random() * 100 + 'vw';
+            
+            const fallDuration = Math.random() * 5 + 5;
+            const swayDuration = Math.random() * 2 + 2;
+            flower.style.animationDuration = `${fallDuration}s, ${swayDuration}s`;
+            
+            document.body.appendChild(flower);
+
+            setTimeout(() => {
+                flower.remove();
+            }, fallDuration * 1000);
+        }
+
+        setInterval(createFlower, 100); // 100ms est un très bon équilibre !
+    </script>
+</body>
+</html>
